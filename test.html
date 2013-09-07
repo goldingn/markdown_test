@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="pandoc.css" type="text/css" />
+</head>
+<body>
+<h1 id="using-pandoc-for-scientific-markdown">Using pandoc for scientific markdown</h1>
+<hr />
+<p>This is a little tutorial I wrote for myself to help me get started with using markdown for scientific documents and as a resource for when I forget how to do stuff. I’ve stuck it here in case it turns out to be useful for anyone else, but I’m not promising anything.</p>
+<p>As ever, this is a collection of things I found out by frantic googling, so this tutorial is indebted to all the tutorials and stack overflow questions already out there.</p>
+<h2 id="code">Code</h2>
+<p>Code can be specified inline using backticks like this: <code>`some code`</code>, which renders this: <code>some code</code>. Code blocks can be rendered by tab indenting a paragraph, so this:</p>
+<pre><code>    a
+    code
+    block</code></pre>
+<p>is rendered as this:</p>
+<pre><code>a
+code
+block</code></pre>
+<p>To do an <em>indented</em> code block use two tabs, and so on.</p>
+<h2 id="equations">Equations</h2>
+<p>Equations can be specified using LaTeX code like this:</p>
+<pre><code>    $\pi^2$</code></pre>
+<p>which renders as <span class="math"><em>π</em><sup>2</sup></span>.</p>
+<p>Equations can be numbered too, by adding a reference in the text and an anchor to the maths like this:</p>
+<pre><code>    equation (@first):
+
+    (@first) $\pi^2 + 2 - 3^n$</code></pre>
+<p>which renders as:</p>
+<p>equation (1):</p>
+<ol style="list-style-type: example">
+<li><span class="math"><em>π</em><sup>2</sup> + 2 − 3<sup><em>n</em></sup></span></li>
+</ol>
+<h2 id="figures">Figures</h2>
+<p>Figures can be included similarly to urls using the format:</p>
+<pre><code>    ![Figure caption][/path/to/figure.fig]</code></pre>
+<p>or alternatively with a reference and the path at the end, like this:</p>
+<pre><code>    ![Figure caption][id]
+    ...
+    [id]: path/to/figure.fig</code></pre>
+<p>For example, the following line of code</p>
+<pre><code>    ![**Fig. 1**: a bunch of points or something][points]</code></pre>
+<p>(with the file path at the end of the doc, referenced by <code>[points]</code>) returns this figure and caption:</p>
+<div class="figure">
+<img src="figs/points.png" alt="Fig. 1: a bunch of points or something" /><p class="caption"><strong>Fig. 1</strong>: a bunch of points or something</p>
+</div>
+<p>Unfortunately, the filepaths go a bit funny if outputting to docx and the filepath is anywhere other than in the same directory as the output file or below.</p>
+<p>Also, LaTeX adds the ‘Figure <span class="math"><em>n</em></span>’ bits in itself, so the above will have that repeated in the pdf.</p>
+<h2 id="figure-referencing">Figure referencing</h2>
+<p>Unfortunately, explicitly referencing figures by number is harder. If we’re rendering to pdf we can use LaTeX references of the form <code>\ref{id}</code> in the text and <code>\label{id}</code> in the figure caption. This doesn’t work for formats like html and docx though.</p>
+<p>So markdown like this:</p>
+<pre><code>    Figure \ref{bar} is great.
+
+    ![**Figure 2**: some pretty bars \label{bar}][bars]</code></pre>
+<p>(again with the filepath at the end) renders correctly in pdf, but not so well in html or docx:</p>
+<p>Figure  is great.</p>
+<div class="figure">
+<img src="figs/bars.png" alt="Figure 2: some pretty bars " /><p class="caption"><strong>Figure 2</strong>: some pretty bars </p>
+</div>
+<h2 id="citations">Citations</h2>
+<p>Citations are specified by citekeys in the format <code>@Ward2009</code>, which is rendered as: <span class="citation">Ward et al. (2009)</span>.</p>
+<p>To fill in the citations and add a bibliography (at the end of the document, <code>pandoc</code> needs us to specify a <code>bibtex</code> bibliography file. We can also change the citation style by specifying a <code>.csl</code> file. These are both covered in the ‘pandoc’ section below.</p>
+<h2 id="pandoc">pandoc</h2>
+<p>Assuming <code>pandoc</code> is installed and in the system path, rendering the file is as simple as running the following from the command line:</p>
+<pre><code>pandoc file.md -o file.html</code></pre>
+<p>To get all the useful scientific features working, we need a bunch of other options:</p>
+<ul>
+<li>building a standalone file (<code>-s</code>)</li>
+<li>using smart quotes (<code>-S</code>)</li>
+<li>rendering the file using pandoc-flavoured markdown (<code>-c pandoc.css</code>)</li>
+<li>specifying a <code>.bib</code> file to render citations (<code>--bibliography=file.bibtex</code>)</li>
+<li>specifying a <code>.csl</code> file to set the citation style (<code>--csl=file.csl</code>)</li>
+</ul>
+<p>giving us something like this:</p>
+<pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex --csl=file.csl file.md -o file.html</code></pre>
+<p>or</p>
+<pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex --csl=file.csl file.md -o file.docx</code></pre>
+<p>So to render this file I used</p>
+<pre><code>    pandoc -s -S -s pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o docs/test.html
+
+    pandoc -s -S -s pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o docs/test.docx
+
+    pandoc -s -S -s pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o docs/test.pdf</code></pre>
+<h2 id="references">References</h2>
+<!---
+this is the awkward html syntax for an inline comment.
+pandoc will shove the bibliography down here,
+figure links below
+--->
+
+<p>Ward, G., Hastie, T., Barry, S., Elith, J. &amp; Leathwick, J.R. (2009). Presence-only data and the em algorithm. <em>Biometrics</em>, <strong>65</strong>, 554–63. Retrieved from <a href="http://www.ncbi.nlm.nih.gov/pubmed/18759851" title="http://www.ncbi.nlm.nih.gov/pubmed/18759851">http://www.ncbi.nlm.nih.gov/pubmed/18759851</a></p>
+</body>
+</html>
