@@ -108,7 +108,8 @@ giving us something like this:
 
 or
 
-		pandoc -s -S -c pandoc.css --bibliography=file.bibtex --csl=file.csl file.md -o file.docx
+		pandoc -s -S -c pandoc.css --bibliography=file.bibtex
+			--csl=file.csl file.md -o file.docx
 
 
 So to render this file I used

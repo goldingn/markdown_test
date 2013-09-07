@@ -79,7 +79,8 @@ block</code></pre>
 <p>giving us something like this:</p>
 <pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex --csl=file.csl file.md -o file.html</code></pre>
 <p>or</p>
-<pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex --csl=file.csl file.md -o file.docx</code></pre>
+<pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex
+        --csl=file.csl file.md -o file.docx</code></pre>
 <p>So to render this file I used</p>
 <pre><code>    pandoc -s -S -s pandoc.css --bibliography=library.bib
         --csl=mee.csl test.md -o docs/test.html
