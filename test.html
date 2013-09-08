@@ -82,14 +82,14 @@ block</code></pre>
 <pre><code>    pandoc -s -S -c pandoc.css --bibliography=file.bibtex
         --csl=file.csl file.md -o file.docx</code></pre>
 <p>So to render this file I used</p>
-<pre><code>    pandoc -s -S -s pandoc.css --bibliography=library.bib
-        --csl=mee.csl test.md -o docs/test.html
+<pre><code>    pandoc -s -S -c pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o test.html
 
-    pandoc -s -S -s pandoc.css --bibliography=library.bib
-        --csl=mee.csl test.md -o docs/test.docx
+    pandoc -s -S -c pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o test.docx
 
-    pandoc -s -S -s pandoc.css --bibliography=library.bib
-        --csl=mee.csl test.md -o docs/test.pdf</code></pre>
+    pandoc -s -S -c pandoc.css --bibliography=library.bib
+        --csl=mee.csl test.md -o test.pdf</code></pre>
 <h2 id="references">References</h2>
 <!---
 this is the awkward html syntax for an inline comment.

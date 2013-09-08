@@ -114,14 +114,14 @@ or
 
 So to render this file I used
 
-		pandoc -s -S -s pandoc.css --bibliography=library.bib
-			--csl=mee.csl test.md -o docs/test.html
+		pandoc -s -S -c pandoc.css --bibliography=library.bib
+			--csl=mee.csl test.md -o test.html
 
-		pandoc -s -S -s pandoc.css --bibliography=library.bib
-			--csl=mee.csl test.md -o docs/test.docx
+		pandoc -s -S -c pandoc.css --bibliography=library.bib
+			--csl=mee.csl test.md -o test.docx
 
-		pandoc -s -S -s pandoc.css --bibliography=library.bib
-			--csl=mee.csl test.md -o docs/test.pdf
+		pandoc -s -S -c pandoc.css --bibliography=library.bib
+			--csl=mee.csl test.md -o test.pdf
 
 ## References
 
